@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import Login, { validateEmail }  from "../Login";
 
 describe("Test Login component", () => {
+
+  // Loginコンポーネントにボタンが1つだけあること
   test("render form with 1 button", async () => {
     render(<Login />);
     const buttonList = await screen.findAllByRole("button");
@@ -10,22 +12,28 @@ describe("Test Login component", () => {
     expect(buttonList).toHaveLength(1);
   });
 
+  // 誤ったemailを入力したときにemailバリデーションがfalseになること
   test("should be failed on email validation", () => {
+    // 関数のテストでdomの取得をおこなわないため、renderする必要はない
     const testEmail = "hogehoge.com";
     expect(validateEmail(testEmail)).not.toBe(true);
   });
 
+  // 正しいemailを入力したときにemailバリデーションがtrueになること
   test("should be successed on email validation", () => {
+    // 関数のテストでdomの取得をおこなわないため、renderする必要はない
     const testEmail = "hoge@hoge.com";
     expect(validateEmail(testEmail)).toBe(true);
   });
 
+  // パスワードの入力のタイプが「password」であること
   test("password input should have type password", () => {
     render(<Login />);
     const password = screen.getByPlaceholderText("パスワード入力");
     expect(password).toHaveAttribute("type", "password");
   });
 
+  // 正しい入力があったときにフォームが送信できること
   test("should be able to submit the form", () => {
     const inputEmail = "hoge@hoge.com"
 
